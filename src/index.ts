@@ -4,8 +4,10 @@ import express, { Request, Response } from 'express';
 import { Env } from '@/config/env.config';
 import { errorHandler } from './middlewares/error-handler.middlre';
 import { connectDatabase } from './config/db.config';
+import { seedActivities } from './seed/activity.seed';
 
 import authRoutes from './routes/auth.route';
+import activityRoutes from './routes/activity.route';
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
@@ -18,11 +20,13 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
+app.use(`${BASE_PATH}/activities`, activityRoutes);
 
 app.use(errorHandler);
 
 app.listen(Env.PORT, async () => {
   await connectDatabase();
+  await seedActivities();
   console.log(
     `api runnung at http://localhost:${Env.PORT} (in ${Env.NODE_ENV})`
   );
