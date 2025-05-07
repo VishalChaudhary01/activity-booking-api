@@ -2,12 +2,14 @@ import 'module-alias/register';
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import { Env } from '@/config/env.config';
-import { errorHandler } from './middlewares/error-handler.middlre';
 import { connectDatabase } from './config/db.config';
 import { seedActivities } from './seed/activity.seed';
+import { errorHandler } from './middlewares/error-handler.middlre';
+import { authMiddleware } from './middlewares/auth.middleware';
 
 import authRoutes from './routes/auth.route';
 import activityRoutes from './routes/activity.route';
+import bookingRoutes from './routes/booking.route';
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
@@ -21,6 +23,7 @@ app.get('/health', (req: Request, res: Response) => {
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
 app.use(`${BASE_PATH}/activities`, activityRoutes);
+app.use(`${BASE_PATH}/bookings`, authMiddleware, bookingRoutes);
 
 app.use(errorHandler);
 

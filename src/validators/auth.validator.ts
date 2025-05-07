@@ -40,6 +40,3 @@ export const signinSchema = z.object({
     .trim()
     .min(1, { message: 'Password enter your password' }),
 });
-
-export type SignupInput = z.infer<typeof signupSchema>;
-export type SigninInput = z.infer<typeof signinSchema>;

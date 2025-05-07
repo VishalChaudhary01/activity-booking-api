@@ -4,7 +4,7 @@ import { UnauthorizedException } from '@/utils/errors';
 import { verifyJwt } from '@/utils/jwt';
 import { Request, Response, NextFunction } from 'express';
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   user?: {
     id: string;
   };
