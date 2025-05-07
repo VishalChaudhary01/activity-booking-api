@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import { Env } from '@/config/env.config';
 import { errorHandler } from './middlewares/error-handler.middlre';
+import { connectDatabase } from './config/db.config';
 
 const app = express();
 
@@ -15,8 +16,9 @@ app.get('/health', (req: Request, res: Response) => {
 
 app.use(errorHandler);
 
-app.listen(Env.PORT, () =>
+app.listen(Env.PORT, async () => {
+  await connectDatabase();
   console.log(
     `api runnung at http://localhost:${Env.PORT} (in ${Env.NODE_ENV})`
-  )
-);
+  );
+});
