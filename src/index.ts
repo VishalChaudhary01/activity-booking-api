@@ -5,7 +5,10 @@ import { Env } from '@/config/env.config';
 import { errorHandler } from './middlewares/error-handler.middlre';
 import { connectDatabase } from './config/db.config';
 
+import authRoutes from './routes/auth.route';
+
 const app = express();
+const BASE_PATH = Env.BASE_PATH;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -13,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ message: 'Healthy API!' });
 });
+
+app.use(`${BASE_PATH}/auth`, authRoutes);
 
 app.use(errorHandler);
 
